@@ -5,7 +5,6 @@ import java.io.PrintWriter;
 import java.lang.StringBuffer;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-import java.util.Enumeration;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -90,23 +89,12 @@ public class RegexSpellcheckerServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/*String  queryBeforeEncoding = request.getParameter("query");*/
-
-		String userAgent = request.getHeader("user-agent").toLowerCase();
-		boolean internetExplorer = false;
-		
-		if(userAgent!=null && (userAgent.contains("explorer") || userAgent.contains("trident"))){
-			internetExplorer = true;
-		}
-
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {			
 		if (null == request.getCharacterEncoding()) {
 			// Respect the client-specified character encoding
 			// (see HTTP specification section 3.4.1)
 			logger.info("changing to default encoding");
-			if(!internetExplorer){
-				request.setCharacterEncoding( encoding );
-			};
+			request.setCharacterEncoding( encoding );
 		}
 
 		StringBuffer correction = new StringBuffer();
@@ -152,15 +140,9 @@ public class RegexSpellcheckerServlet extends HttpServlet {
 			matcher.appendTail(correction);
 		}
 		
-		if(internetExplorer)
-		{
-			response.setContentType("text/html; charset=windows-1252");
-			response.setCharacterEncoding("windows-1252");			
-		}
-		else{
-			response.setContentType("text/html; charset=UTF-8");
-			response.setCharacterEncoding("UTF-8");
-		}
+		response.setContentType("text/html; charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		
 		PrintWriter out=response.getWriter();
 			out.println("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">");
 			out.println("<html>");
@@ -168,6 +150,7 @@ public class RegexSpellcheckerServlet extends HttpServlet {
 					out.println("<title>Query Spellchecker</title>");
 				out.println("</head>");
 				out.println("<body>");
+					out.println("<h3>Query Spellchecker</h3>");
 					out.println("<h5>Query:</h5>");
 						out.println("<div id=\"query\">");	    
 						out.println( query );
