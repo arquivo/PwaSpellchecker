@@ -95,7 +95,9 @@ public class RegexSpellcheckerServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		/*String  queryBeforeEncoding = request.getParameter("query");*/
-
+    	response.addHeader("Access-Control-Allow-Origin", "*");
+    	response.addHeader("Access-Control-Allow-Methods", "GET, HEAD");
+		
 		String userAgent = request.getHeader("user-agent").toLowerCase();
 		boolean internetExplorer = false;
 		
