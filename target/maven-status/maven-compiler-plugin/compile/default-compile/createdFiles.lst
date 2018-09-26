@@ -1,0 +1,12 @@
+pt/arquivo/spellchecker/AlignStrings.class
+pt/arquivo/spellchecker/rules/portuguese/AddPrefixRule.class
+pt/arquivo/spellchecker/rules/portuguese/MultipleSubstituteRule.class
+pt/arquivo/spellchecker/SpellChecker.class
+pt/arquivo/spellchecker/rules/portuguese/SubstituteRule.class
+pt/arquivo/spellchecker/tests/TestSpellChecker.class
+pt/arquivo/spellchecker/rules/portuguese/DiacriticsRule.class
+pt/arquivo/spellchecker/StringDifferences.class
+pt/arquivo/servlets/SpellCheckerServlet.class
+pt/arquivo/spellchecker/rules/NormalizingRule.class
+pt/arquivo/spellchecker/StringDifferences$SortComparator.class
+pt/arquivo/servlets/RegexSpellcheckerServlet.class

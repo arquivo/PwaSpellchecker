@@ -21,6 +21,9 @@ import org.apache.log4j.Logger;
 
 import pt.arquivo.spellchecker.SpellChecker;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
+
 /**
  * Servlet implementation for Spellchecker of nutchwax queries using REGEX
  * @author David Cruz
@@ -170,11 +173,11 @@ public class RegexSpellcheckerServlet extends HttpServlet {
 				out.println("<body>");
 					out.println("<h5>Query:</h5>");
 						out.println("<div id=\"query\">");	    
-						out.println( query );
+						out.println( StringEscapeUtils.escapeHtml(query) );
 					out.println("</div>");
 					out.println("<h5>Correction:</h5>");
 					out.println("<div id=\"correction\">");	    
-						out.println( correction.toString() );
+						out.println( StringEscapeUtils.escapeHtml(correction.toString()) );
 					out.println("</div>");
 				out.println("</body>");
 			out.println("</html>");	  
