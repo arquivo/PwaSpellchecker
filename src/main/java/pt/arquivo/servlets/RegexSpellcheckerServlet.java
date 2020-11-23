@@ -35,8 +35,7 @@ public class RegexSpellcheckerServlet extends HttpServlet {
 	private static final String QUERY_TERM_REGEX = "-?([^\"\\s-]+)";
 	private static int minFreq=0;
 	private static int timesFreq=0;
-	private static int timesFreq=0;
-	private static String key=""; 
+	private static String key="";
 	private static String dictPath=null;
 	
 	//private static SpellChecker spellchecker=null;
@@ -152,8 +151,8 @@ public class RegexSpellcheckerServlet extends HttpServlet {
 								matcher.appendReplacement( correction, "<em>"+ allSuggestions[0] +"</em>");
 							}
 						} 				
-					} catch (InterruptedException e) {			
-						throw new IOException(e);
+					} catch (IOException e) {
+						throw e;
 					}
 				}
 			}
