@@ -72,42 +72,4 @@ public class MultipleSubstituteRule implements NormalizingRule {
 	private boolean compareThreeChars(char[] carray, String s) {
 		return (carray[0]==s.charAt(0) && carray[1]==s.charAt(1) && carray[2]==s.charAt(2));
 	}
-	
-	
-	/**
-	 * Main
-	 * @param args
-	 */		
-	/*
-	public static void main(String[] args) {
-		MultipleSubstituteRule rule=new MultipleSubstituteRule();		
-		String word="ssical";
-		System.out.println(rule.normalizeByRule(word));
-		word="comessar";
-		System.out.println(rule.normalizeByRule(word));
-		word="chaile";
-		System.out.println(rule.normalizeByRule(word));
-		word="chailech";
-		System.out.println(rule.normalizeByRule(word));
-		word="chadrez";
-		System.out.println(rule.normalizeByRule(word));
-		
-		word="ssical";
-		System.out.println(rule.normalizeByRule(word));
-		word="ssocal";
-		System.out.println(rule.normalizeByRule(word));
-		word="ssocalão";
-		System.out.println(rule.normalizeByRule(word));
-		word="ssocalãox";
-		System.out.println(rule.normalizeByRule(word));
-		word="victor";
-		System.out.println(rule.normalizeByRule(word));	
-		word="cidadões";		
-		System.out.println(rule.normalizeByRule(word));
-		word="calsado";		
-		System.out.println(rule.normalizeByRule(word));
-		word="calado";		
-		System.out.println(rule.normalizeByRule(word));
-	}
-	*/
 }

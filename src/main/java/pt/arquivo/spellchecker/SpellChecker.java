@@ -20,9 +20,7 @@ import pt.arquivo.spellchecker.rules.portuguese.SubstituteRule;
 import java.io.*;
 import java.net.*;
 import javax.net.ssl.HttpsURLConnection;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.JSONArray;
+import org.json.*;
 
 
 
