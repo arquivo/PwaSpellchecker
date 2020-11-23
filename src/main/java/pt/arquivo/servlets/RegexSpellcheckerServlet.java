@@ -64,7 +64,7 @@ public class RegexSpellcheckerServlet extends HttpServlet {
         String indexDir = config.getInitParameter("indexDir");
         minFreq = Integer.parseInt(config.getInitParameter("minFreq"));
         timesFreq = Integer.parseInt(config.getInitParameter("timesFreq"));
-        key = String.parseInt(config.getInitParameter("key"));     
+        key = config.getInitParameter("key");     
         dictPath = config.getInitParameter("dictPath");
 
         logger.info("Starting spellchecker with parameters( indexDir:"+indexDir+" minFreq:"+minFreq+" timesFreq:"+timesFreq+" dictPath:"+dictPath+" )");        

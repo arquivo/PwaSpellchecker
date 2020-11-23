@@ -23,31 +23,28 @@ public class SubstituteRule implements NormalizingRule {
 		for (int i=0;i<cWordWithAccents.length;i++) {
 
 			switch(cWordWithAccents[i]) {
-				case 0x87:					// á
-				case 0x88:					// à
-				case 0x89:					// â
-				case 0x8B: cWordWithAccents[i]='a'; break;	// ã
+				case 0x87:					
+				case 0x88:					
+				case 0x89:					
+				case 0x8B: cWordWithAccents[i]='a'; break;	
 				
-				case 0x8E: 					// é
-				case 0x8F:					// è
-				case 0x90: cWordWithAccents[i]='e'; break;	// ê
+				case 0x8E: 					
+				case 0x8F:					
+				case 0x90: cWordWithAccents[i]='e'; break;	
 
-				case 0x69: cWordWithAccents[i]='e'; break;	// i to e
-				case 0x92: cWordWithAccents[i]='i'; break;	// í
+				case 0x69: cWordWithAccents[i]='e'; break;	
+				case 0x92: cWordWithAccents[i]='i'; break;	
 
-				case 0x97:					// ó
-				case 0x99:					// ô
-				case 0x9B: cWordWithAccents[i]='o'; break;	// õ
+				case 0x97:					
+				case 0x99:					
+				case 0x9B: cWordWithAccents[i]='o'; break;	
 
-				case 0x75: cWordWithAccents[i]='o'; break;	// u to o
-				case 0x9C: cWordWithAccents[i]='u'; break;	// ú		
+				case 0x75: cWordWithAccents[i]='o'; break;	
+				case 0x9C: cWordWithAccents[i]='u'; break;			
 
-				case 0x7A: cWordWithAccents[i]='s'; break;	// z to s								
+				case 0x7A: cWordWithAccents[i]='s'; break;									
 
-				case 0x6E: cWordWithAccents[i]='m'; break;	// n to m
-			//case 'x': cWordWithAccents[i]='s'; break;
-			//case 'ç': cWordWithAccents[i]='s'; break;
-			//case 'j': cWordWithAccents[i]='g'; break;		
+				case 0x6E: cWordWithAccents[i]='m'; break;		
 			}
 		}
 		normalized = new String(cWordWithAccents);

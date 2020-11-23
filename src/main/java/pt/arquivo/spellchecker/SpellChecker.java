@@ -132,7 +132,7 @@ public class SpellChecker  {
     JSONArray suggestions = flaggedTokens.getJSONObject(0).getJSONArray("suggestions");
     String suggestionsArr[] = new String[suggestions.length()];
     for (int i = 0; i < suggestions.length(); i++){
-    	suggestionsArr.add(suggestions.getJSONObject(i).getString("suggestion"))
+    	suggestionsArr.add(suggestions.getJSONObject(i).getString("suggestion"));
     }
     //String suggestion = flaggedTokens.getJSONObject(0).getString("suggestion"); 
 	//suggestions.toArray(suggestionsArr);
