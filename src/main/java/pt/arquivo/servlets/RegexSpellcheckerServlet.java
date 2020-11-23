@@ -34,7 +34,9 @@ public class RegexSpellcheckerServlet extends HttpServlet {
 	private static final String FIELD="content";
 	private static final String QUERY_TERM_REGEX = "-?([^\"\\s-]+)";
 	private static int minFreq=0;
-	private static int timesFreq=0;	 
+	private static int timesFreq=0;
+	private static int timesFreq=0;
+	private static String key=""; 
 	private static String dictPath=null;
 	
 	//private static SpellChecker spellchecker=null;
@@ -61,7 +63,8 @@ public class RegexSpellcheckerServlet extends HttpServlet {
         
         String indexDir = config.getInitParameter("indexDir");
         minFreq = Integer.parseInt(config.getInitParameter("minFreq"));
-        timesFreq = Integer.parseInt(config.getInitParameter("timesFreq"));        
+        timesFreq = Integer.parseInt(config.getInitParameter("timesFreq"));
+        key = String.parseInt(config.getInitParameter("key"));     
         dictPath = config.getInitParameter("dictPath");
 
         logger.info("Starting spellchecker with parameters( indexDir:"+indexDir+" minFreq:"+minFreq+" timesFreq:"+timesFreq+" dictPath:"+dictPath+" )");        
@@ -140,8 +143,8 @@ public class RegexSpellcheckerServlet extends HttpServlet {
 
 				if ( !isOperator( match ) ) {
 					try {
-						allSuggestions = SpellChecker.suggestSimilarHunspell(match, lang, 1, reader, FIELD, minFreq, timesFreq, dictPath);
-		
+						//allSuggestions = SpellChecker.suggestSimilarHunspell(match, lang, 1, reader, FIELD, minFreq, timesFreq, dictPath);
+						allSuggestions = SpellChecker.suggestSimilarBing(match, key);
 						if ( allSuggestions.length > 0 ) {
 							// only add word to suggestion if it is different
 							if ( !match.equals( allSuggestions[0] ) ) {

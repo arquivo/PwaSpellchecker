@@ -17,6 +17,10 @@ import pt.arquivo.spellchecker.rules.portuguese.AddPrefixRule;
 import pt.arquivo.spellchecker.rules.portuguese.DiacriticsRule;
 import pt.arquivo.spellchecker.rules.portuguese.MultipleSubstituteRule;
 import pt.arquivo.spellchecker.rules.portuguese.SubstituteRule;
+import java.io.*;
+import java.net.*;
+import javax.net.ssl.HttpsURLConnection;
+
 
 
 /**
@@ -33,6 +37,12 @@ public class SpellChecker  {
   private final static NormalizingRule rulesDefault[]={};
   
   private static Logger logger=Logger.getLogger(SpellChecker.class.getName());
+
+  static String host = "https://api.bing.microsoft.com";
+  static String path = "/v7.0/SpellCheck";
+
+  static String mkt = "pt-PT";
+  static String mode = "spell";
 	
 	
   /**
@@ -97,6 +107,35 @@ public class SpellChecker  {
 	  String scomm="echo "+word+" | /usr/bin/hunspell -a -d "+dictPath+"/"+lang;
 	  return suggestSimilarSpell(word, lang, numSug, ir, field, minFreq, timesFreq, dictPath, scomm);
   }
+
+  public static String[] suggestSimilarBing(String word, String key){
+  	String params = "?mkt=" + mkt + "&mode=" + mode;
+	URL url = new URL(host + path + params);
+    HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+    connection.setRequestMethod("POST");
+	connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+	connection.setRequestProperty("Ocp-Apim-Subscription-Key", key);
+	connection.setDoOutput(true);
+
+	DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
+    wr.writeBytes("text=" + text);
+    wr.flush();
+    wr.close();
+
+    InputStream inputStream = new InputStreamReader(connection.getInputStream());
+    JSONParser jsonParser = new JSONParser();
+    JSONObject jsonObject = (JSONObject)jsonParser.parse(new InputStreamReader(inputStream, "UTF-8"));
+    JSONArray flaggedTokens = (JSONArray) jsonObject.getJSONObject("flaggedTokens");
+    JSONArray suggestions = (JSONArray) flaggedTokens.getJSONObject(0).getString("suggestions");
+    //String suggestion = flaggedTokens.getJSONObject(0).getString("suggestion");
+    String suggestionsArr[]=new String[suggestions.size()];
+	suggestions.toArray(suggestionsArr);
+	return suggestionsArr;	
+
+    //suggestion = json_response["flaggedTokens"][0]["suggestions"][0]["suggestion"]
+
+  }
+
   
   /**
    * Suggests words using Aspell or Hunspell  
