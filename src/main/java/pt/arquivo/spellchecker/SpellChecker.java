@@ -121,7 +121,7 @@ public class SpellChecker  {
 	connection.setDoOutput(true);
 
 	DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
-    wr.writeBytes("text=" + text);
+    wr.writeBytes("text=" + word);
     wr.flush();
     wr.close();
 
@@ -129,10 +129,13 @@ public class SpellChecker  {
     JSONParser jsonParser = new JSONParser();
     JSONObject jsonObject = (JSONObject)jsonParser.parse(new InputStreamReader(inputStream, "UTF-8"));
     JSONArray flaggedTokens = (JSONArray) jsonObject.getJSONObject("flaggedTokens");
-    JSONArray suggestions = (JSONArray) flaggedTokens.getJSONObject(0).getString("suggestions");
-    //String suggestion = flaggedTokens.getJSONObject(0).getString("suggestion");
-    String suggestionsArr[]=new String[suggestions.size()];
-	suggestions.toArray(suggestionsArr);
+    JSONArray suggestions = flaggedTokens.getJSONObject(0).getJSONArray("suggestions");
+    String suggestionsArr[] = new String[suggestions.length()];
+    for (int i = 0; i < suggestions.length(); i++){
+    	suggestionsArr.add(suggestions.getJSONObject(i).getString("suggestion"))
+    }
+    //String suggestion = flaggedTokens.getJSONObject(0).getString("suggestion"); 
+	//suggestions.toArray(suggestionsArr);
 	return suggestionsArr;	
 
     //suggestion = json_response["flaggedTokens"][0]["suggestions"][0]["suggestion"]
