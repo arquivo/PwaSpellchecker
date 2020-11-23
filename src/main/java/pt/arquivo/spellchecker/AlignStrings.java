@@ -53,32 +53,4 @@ public class AlignStrings {
 		}
 		return counter;
 	}
-
-	
-	/**
-	 * Main
-	 * @param args
-	 */
-	/*
-	public static void main(String[] args) {
-		
-		 String terms[][]={{"elio","helio"},{"adela","mortandela"},{"helio","elio"},{"ministro","menistro"},{"própria","própia"}};
-		 
-		 int pad=10;
-		 StringDifferences strDiff=new StringDifferences();
-		 for (int i=0;i<terms.length;i++) {
-			 for (int j=0;j<pad+align(terms[i][0],terms[i][1]);j++) {
-				 System.out.print(" ");
-			 }			 
-			 System.out.println(terms[i][0]);
-			 for (int j=0;j<pad;j++) {
-				 System.out.print(" ");
-			 }			 
-			 System.out.println(terms[i][1]);	
-			 
-			 strDiff.analyzeDifferences(terms[i][0],terms[i][1]);			 
-		 }
-		 strDiff.stats();		
-	}
-	*/
 }

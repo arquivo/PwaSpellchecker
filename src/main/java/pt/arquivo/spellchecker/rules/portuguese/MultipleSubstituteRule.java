@@ -33,35 +33,7 @@ public class MultipleSubstituteRule implements NormalizingRule {
 			
 			if (nChars==3) {
 				// three chars
-				if (compareThreeChars(lastChars,"ães")) {
-					sbuf.append("ãos");
-					nChars=0;
-				}
-				else if (compareThreeChars(lastChars,"ões")) {
-					sbuf.append("ãos");
-					nChars=0;
-				}
-				else if (compareThreeChars(lastChars,"são")) {
-					sbuf.append("ção");
-					nChars=0;
-				}
-				else if (compareThreeChars(lastChars,"ssa")) {
-					sbuf.append("ça");
-					nChars=0;
-				}
-				else if (compareThreeChars(lastChars,"sso")) {
-					sbuf.append("ço");
-					nChars=0;
-				}
-				else if (compareThreeChars(lastChars,"ssu")) {					
-					sbuf.append("çu");
-					nChars=0;
-				}
-				else if (compareThreeChars(lastChars,"ssú")) {					
-					sbuf.append("çú");
-					nChars=0;
-				}
-				else if (compareThreeChars(lastChars,"sse")) {
+				if (compareThreeChars(lastChars,"sse")) {
 					sbuf.append("ce");
 					nChars=0;
 				}
@@ -69,85 +41,6 @@ public class MultipleSubstituteRule implements NormalizingRule {
 					sbuf.append("ci");
 					nChars=0;
 				}
-				// two chars
-				else if (compareTwoChars(lastChars,"sa")) {
-					sbuf.append("ça");
-					nChars=1;
-				}
-				else if (compareTwoChars(lastChars,"si")) {
-					sbuf.append("ci");
-					nChars=1;
-				}
-				else if (compareTwoChars(lastChars,"se")) {
-					sbuf.append("ce");
-					nChars=1;
-				}
-				else if (compareTwoChars(lastChars,"le")) {
-					sbuf.append("re");
-					nChars=1;
-				}
-				else if (compareTwoChars(lastChars,"er")) {
-					sbuf.append("re");
-					nChars=1;
-				}
-				else if (compareTwoChars(lastChars,"ex")) {
-					sbuf.append("es");
-					nChars=1;
-				}
-				else if (compareTwoChars(lastChars,"je")) {
-					sbuf.append("ge");
-					nChars=1;
-				}
-				else if (compareTwoChars(lastChars,"ji")) {
-					sbuf.append("gi");
-					nChars=1;
-				}
-				else if (compareTwoChars(lastChars,"xi")) {
-					sbuf.append("ci");
-					nChars=1;
-				}
-				else if (compareTwoChars(lastChars,"ão") && i==word.length()) {
-					sbuf.append("am");
-					nChars=1;
-				}
-				else if (compareTwoChars(lastChars,"ch")) {
-					sbuf.append("x");
-					nChars=1;
-				}
-				else if (compareTwoChars(lastChars,"cc")) {
-					sbuf.append("c");
-					nChars=1;
-				}
-				else if (compareTwoChars(lastChars,"cç")) {
-					sbuf.append("ç");
-					nChars=1;
-				}
-				else if (compareTwoChars(lastChars,"ct")) {
-					sbuf.append("t");
-					nChars=1;
-				}
-				else if (compareTwoChars(lastChars,"qu")) {
-					sbuf.append("k");
-					nChars=1;
-				}
-				else if (compareTwoChars(lastChars,"êe")) {
-					sbuf.append("ê");
-					nChars=1;
-				}
-				else if (compareTwoChars(lastChars,"ee")) {
-					sbuf.append("ê");
-					nChars=1;
-				}
-				else if (compareTwoChars(lastChars,"ês")) {
-					sbuf.append("ez");
-					nChars=1;
-				} 
-				/*
-				else if (compareTwoChars(lastChars,"oo")) {
-					sbuf.append("o");
-					nChars=0;
-				}
-				*/			
 				else {				
 					sbuf.append(lastChars[0]);					
 					nChars=2;										
