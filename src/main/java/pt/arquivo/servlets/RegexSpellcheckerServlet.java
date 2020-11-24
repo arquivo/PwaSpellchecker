@@ -143,7 +143,8 @@ public class RegexSpellcheckerServlet extends HttpServlet {
 				if ( !isOperator( match ) ) {
 					try {
 						//allSuggestions = SpellChecker.suggestSimilarHunspell(match, lang, 1, reader, FIELD, minFreq, timesFreq, dictPath);
-						allSuggestions = SpellChecker.suggestSimilarBing(match, key);
+						allSuggestions = SpellChecker.suggestSimilarBing(match, key, logger);
+						logger.info("suggestions: "+ allSuggestions);
 						if ( allSuggestions.length > 0 ) {
 							// only add word to suggestion if it is different
 							if ( !match.equals( allSuggestions[0] ) ) {

@@ -113,15 +113,18 @@ public class SpellChecker {
         return suggestSimilarSpell(word, lang, numSug, ir, field, minFreq, timesFreq, dictPath, scomm);
     }
 
-    public static String[] suggestSimilarBing(String word, String key) throws IOException {
+    public static String[] suggestSimilarBing(String word, String key, Logger logger) throws IOException {
 
         String params = "?mkt=" + mkt + "&mode=" + mode;
+        logger.info("word: "+ word);
+        logger.info("key: "+ key);
+        logger.info("params: "+ params);
         URL url = new URL(host + path + params);
         HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
-        connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-        connection.setRequestProperty("Ocp-Apim-Subscription-Key", key);
-        connection.setDoOutput(true);
+ 	 	connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+ 		connection.setRequestProperty("Ocp-Apim-Subscription-Key", key);
+ 		connection.setDoOutput(true);
 
         DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
         wr.writeBytes("text=" + word);
@@ -129,12 +132,15 @@ public class SpellChecker {
         wr.close();
 
         BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String jsonOutput = "";
         String line;
         while ((line = in.readLine()) != null) {
+        	jsonOutput = jsonOutput + line;
         }
         in.close();
+        logger.info("word: "+ jsonOutput);
 
-        JSONObject jsonObject = new JSONObject(line);
+        JSONObject jsonObject = new JSONObject(jsonOutput);
         JSONArray flaggedTokens = jsonObject.getJSONArray("flaggedTokens");
         JSONArray suggestions = flaggedTokens.getJSONObject(0).getJSONArray("suggestions");
         String suggestionsArr[] = new String[suggestions.length()];
