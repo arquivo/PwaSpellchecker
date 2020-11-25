@@ -5,7 +5,6 @@ import java.io.PrintWriter;
 import java.lang.StringBuffer;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-import java.util.Enumeration;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -21,23 +20,20 @@ import org.apache.log4j.Logger;
 
 import pt.arquivo.spellchecker.SpellChecker;
 
-import org.apache.commons.lang.StringEscapeUtils;
-
-
 /**
  * Servlet implementation for Spellchecker of nutchwax queries using REGEX
  * @author David Cruz
  */
 public class RegexSpellcheckerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-		
+
 	private static final String FIELD="content";
 	private static final String QUERY_TERM_REGEX = "-?([^\"\\s-]+)";
 	private static int minFreq=0;
 	private static int timesFreq=0;
 	private static String key="";
 	private static String dictPath=null;
-	
+
 	//private static SpellChecker spellchecker=null;
 	private static IndexReader reader=null;
 	private static Logger logger=null; 
@@ -45,29 +41,29 @@ public class RegexSpellcheckerServlet extends HttpServlet {
 	private Pattern pattern;
 
 	private String encoding = "UTF-8";
-       
+
     /**
      * @see HttpServlet#HttpServlet()
      */
     public RegexSpellcheckerServlet() {
         super();
     }
-    
+
     /**
      * 
      */
     public void init(ServletConfig config) throws ServletException {
         super.init(config);        
         logger = Logger.getLogger(RegexSpellcheckerServlet.class.getName());
-        
+
         String indexDir = config.getInitParameter("indexDir");
         minFreq = Integer.parseInt(config.getInitParameter("minFreq"));
         timesFreq = Integer.parseInt(config.getInitParameter("timesFreq"));
-        key = config.getInitParameter("key");     
+        key = config.getInitParameter("key");      
         dictPath = config.getInitParameter("dictPath");
 
         logger.info("Starting spellchecker with parameters( indexDir:"+indexDir+" minFreq:"+minFreq+" timesFreq:"+timesFreq+" dictPath:"+dictPath+" )");        
-        
+
 	try {
 		Directory idx = FSDirectory.getDirectory(indexDir, false);			
 	  	reader=IndexReader.open(idx);
@@ -78,7 +74,7 @@ public class RegexSpellcheckerServlet extends HttpServlet {
 	}
 
 	pattern = Pattern.compile(QUERY_TERM_REGEX);
-								 	    	  					      
+
     }
 
     /**
@@ -95,29 +91,16 @@ public class RegexSpellcheckerServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/*String  queryBeforeEncoding = request.getParameter("query");*/
-    	response.addHeader("Access-Control-Allow-Origin", "*");
-    	response.addHeader("Access-Control-Allow-Methods", "GET, HEAD");
-		
-		String userAgent = request.getHeader("user-agent").toLowerCase();
-		boolean internetExplorer = false;
-		
-		if(userAgent!=null && (userAgent.contains("explorer") || userAgent.contains("trident"))){
-			internetExplorer = true;
-		}
-
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {			
 		if (null == request.getCharacterEncoding()) {
 			// Respect the client-specified character encoding
 			// (see HTTP specification section 3.4.1)
 			logger.info("changing to default encoding");
-			if(!internetExplorer){
-				request.setCharacterEncoding( encoding );
-			};
+			request.setCharacterEncoding( encoding );
 		}
 
 		StringBuffer correction = new StringBuffer();
-	
+
 		String query = request.getParameter("query");
 		String lang = request.getParameter("l");
 
@@ -142,9 +125,8 @@ public class RegexSpellcheckerServlet extends HttpServlet {
 
 				if ( !isOperator( match ) ) {
 					try {
-						//allSuggestions = SpellChecker.suggestSimilarHunspell(match, lang, 1, reader, FIELD, minFreq, timesFreq, dictPath);
-						allSuggestions = SpellChecker.suggestSimilarBing(match, key, logger);
-						logger.info("suggestions: "+ allSuggestions);
+						allSuggestions = SpellChecker.suggestSimilarHunspell(match, lang, 1, reader, FIELD, minFreq, timesFreq, dictPath);
+						//allSuggestions = SpellChecker.suggestSimilarBing(match, key, logger);
 						if ( allSuggestions.length > 0 ) {
 							// only add word to suggestion if it is different
 							if ( !match.equals( allSuggestions[0] ) ) {
@@ -152,23 +134,17 @@ public class RegexSpellcheckerServlet extends HttpServlet {
 								matcher.appendReplacement( correction, "<em>"+ allSuggestions[0] +"</em>");
 							}
 						} 				
-					} catch (IOException e) {
-						throw e;
+					} catch (InterruptedException e) {			
+						throw new IOException(e);
 					}
 				}
 			}
 			matcher.appendTail(correction);
 		}
-		
-		if(internetExplorer)
-		{
-			response.setContentType("text/html; charset=windows-1252");
-			response.setCharacterEncoding("windows-1252");			
-		}
-		else{
-			response.setContentType("text/html; charset=UTF-8");
-			response.setCharacterEncoding("UTF-8");
-		}
+
+		response.setContentType("text/html; charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
+
 		PrintWriter out=response.getWriter();
 			out.println("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">");
 			out.println("<html>");
@@ -176,13 +152,14 @@ public class RegexSpellcheckerServlet extends HttpServlet {
 					out.println("<title>Query Spellchecker</title>");
 				out.println("</head>");
 				out.println("<body>");
+					out.println("<h3>Query Spellchecker</h3>");
 					out.println("<h5>Query:</h5>");
 						out.println("<div id=\"query\">");	    
-						out.println( StringEscapeUtils.escapeHtml(query) );
+						out.println( query );
 					out.println("</div>");
 					out.println("<h5>Correction:</h5>");
 					out.println("<div id=\"correction\">");	    
-						out.println( StringEscapeUtils.escapeHtml(correction.toString()) );
+						out.println( correction.toString() );
 					out.println("</div>");
 				out.println("</body>");
 			out.println("</html>");	  
@@ -209,7 +186,7 @@ public class RegexSpellcheckerServlet extends HttpServlet {
 		} else if ( term.startsWith("sort:")) {
 			result = true;
 		}
-		
+
 		return result;
 	}
 

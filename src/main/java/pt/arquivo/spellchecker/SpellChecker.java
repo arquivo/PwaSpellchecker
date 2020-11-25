@@ -117,7 +117,6 @@ public class SpellChecker {
 
         String params = "?mkt=" + mkt + "&mode=" + mode;
         logger.info("word: "+ word);
-        logger.info("key: "+ key);
         logger.info("params: "+ params);
         URL url = new URL(host + path + params);
         HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
