@@ -57,10 +57,8 @@ public class SpellChecker {
  		connection.setRequestProperty("Ocp-Apim-Subscription-Key", key);
  		connection.setDoOutput(true);
  		
- 		String queryTermToLatin = new String(queryTerm.getBytes("ISO-8859-1"), "UTF-8");
- 		logger.info("queryTerm: "+ queryTermToLatin);
         DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
-        wr.writeBytes("text=" + queryTermToLatin);
+        wr.writeBytes("text=" + queryTerm);
         wr.flush();
         wr.close();
 
@@ -75,14 +73,14 @@ public class SpellChecker {
 
         JSONObject jsonObject = new JSONObject(jsonOutput);
         JSONArray flaggedTokens = jsonObject.getJSONArray("flaggedTokens");
-        String replaceString = queryTermToLatin;
+        String replaceString = queryTerm;
         for (int i = 0; i < flaggedTokens.length(); i++) {
         	JSONArray suggestions = flaggedTokens.getJSONObject(i).getJSONArray("suggestions");
 	        String token = flaggedTokens.getJSONObject(i).getString("token");
 	        String suggestion = suggestions.getJSONObject(0).getString("suggestion");
 	        replaceString = replaceString.replace(token, suggestion);
         }
-        String replaceStringToUTF8= new String(replaceString.getBytes("UTF-8"), "ISO-8859-1");
-        return replaceStringToUTF8;
+
+        return replaceString;
     }
 }
