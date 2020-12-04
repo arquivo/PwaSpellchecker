@@ -52,7 +52,8 @@ public class SpellChecker {
         HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
         
         connection.setRequestMethod("POST");
- 	 	connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        connection.setRequestProperty( "Accept-Charset" , "UTF-8" );
+ 	 	connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
  		connection.setRequestProperty("Ocp-Apim-Subscription-Key", key);
  		connection.setDoOutput(true);
 
