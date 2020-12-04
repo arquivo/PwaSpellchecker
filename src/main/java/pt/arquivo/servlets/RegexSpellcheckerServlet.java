@@ -12,30 +12,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
-
 import org.apache.log4j.Logger;
 
 import pt.arquivo.spellchecker.SpellChecker;
 
 /**
- * Servlet implementation for Spellchecker of nutchwax queries using REGEX
- * @author David Cruz
+ * Servlet implementation for Spellchecker
+ * @author Pedro Gomes
  */
 public class RegexSpellcheckerServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
 
-	private static final String FIELD="content";
 	private static final String QUERY_TERM_REGEX = "-?([^\"\\s-]+)";
-	private static int minFreq=0;
-	private static int timesFreq=0;
 	private static String key="";
-	private static String dictPath=null;
-
-	//private static SpellChecker spellchecker=null;
-	private static IndexReader reader=null;
 	private static Logger logger=null; 
 
 	private Pattern pattern;
@@ -55,37 +43,9 @@ public class RegexSpellcheckerServlet extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
         super.init(config);        
         logger = Logger.getLogger(RegexSpellcheckerServlet.class.getName());
+        key = config.getInitParameter("key");
+		pattern = Pattern.compile(QUERY_TERM_REGEX);
 
-        String indexDir = config.getInitParameter("indexDir");
-        minFreq = Integer.parseInt(config.getInitParameter("minFreq"));
-        timesFreq = Integer.parseInt(config.getInitParameter("timesFreq"));
-        key = config.getInitParameter("key");      
-        dictPath = config.getInitParameter("dictPath");
-
-        logger.info("Starting spellchecker with parameters( indexDir:"+indexDir+" minFreq:"+minFreq+" timesFreq:"+timesFreq+" dictPath:"+dictPath+" )");        
-
-	try {
-		Directory idx = FSDirectory.getDirectory(indexDir, false);			
-	  	reader=IndexReader.open(idx);
-		logger.info("Spellchecker initialized.");			
-	} catch (IOException e) {
-		logger.error("Problems initializing spellchecker: "+e.getMessage());
-		throw new ServletException(e);
-	}
-
-	pattern = Pattern.compile(QUERY_TERM_REGEX);
-
-    }
-
-    /**
-     * 
-     */
-    public void destroy() {       	    	
-    	try {
-    		reader.close();
-    	} 
-		catch (IOException e) {					
-		}		
     }
 
 	/**
@@ -105,11 +65,11 @@ public class RegexSpellcheckerServlet extends HttpServlet {
 		String lang = request.getParameter("l");
 
 		if (lang == null) {
-			lang = "pt_PT";
+			lang = "pt-PT";
 		} else if ( lang.equals("en") ) {
-			lang = "en_US";
+			lang = "en-US";
 		} else {
-			lang = "pt_PT";
+			lang = "pt-PT";
 		}
 
 		if (query != null && lang != null) {
@@ -118,23 +78,19 @@ public class RegexSpellcheckerServlet extends HttpServlet {
 			logger.info("checking query: "+ query);
 
 			while ( matcher.find() ) {
-				String[] allSuggestions = null;
+				String suggestion = "";
 
 				String match = matcher.group(1).toLowerCase();
 				logger.info("match: "+ match);
 
 				if ( !isOperator( match ) ) {
 					try {
-						allSuggestions = SpellChecker.suggestSimilarHunspell(match, lang, 1, reader, FIELD, minFreq, timesFreq, dictPath);
-						//allSuggestions = SpellChecker.suggestSimilarBing(match, key, logger);
-						if ( allSuggestions.length > 0 ) {
-							// only add word to suggestion if it is different
-							if ( !match.equals( allSuggestions[0] ) ) {
-								logger.info("suggestion: "+ allSuggestions[0]);
-								matcher.appendReplacement( correction, "<em>"+ allSuggestions[0] +"</em>");
-							}
-						} 				
-					} catch (InterruptedException e) {			
+						suggestion = SpellChecker.suggestSimilarBing(match, lang, key);
+						if ( !match.equals( suggestion ) ) {
+							logger.info("suggestion: "+ suggestion);
+							matcher.appendReplacement( correction, "<em>"+ suggestion +"</em>");
+						}				
+					} catch (IOException e) {			
 						throw new IOException(e);
 					}
 				}
