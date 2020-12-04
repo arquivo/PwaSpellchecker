@@ -57,7 +57,7 @@ public class SpellChecker {
  		connection.setRequestProperty("Ocp-Apim-Subscription-Key", key);
  		connection.setDoOutput(true);
  		
- 		String queryTermToLatin= new String(queryTerm.getBytes("UTF-8"), "ISO-8859-1");
+ 		String queryTermToLatin = new String(queryTerm.getBytes("ISO-8859-1"), "UTF-8");
  		logger.info("queryTerm: "+ queryTerm);
         DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
         wr.writeBytes("text=" + queryTermToLatin);
@@ -82,7 +82,7 @@ public class SpellChecker {
 	        String suggestion = suggestions.getJSONObject(0).getString("suggestion");
 	        replaceString = replaceString.replace(token, suggestion);
         }
-        String replaceStringToUTF8 = new String(replaceString.getBytes("ISO-8859-1"), "UTF-8");
+        String replaceStringToUTF8= new String(replaceString.getBytes("UTF-8"), "ISO-8859-1");
         return replaceStringToUTF8;
     }
 }
