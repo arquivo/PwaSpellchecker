@@ -34,13 +34,15 @@ public class SpellChecker {
      * Suggests words using Bing.
      *
      * @param queryTerm      Query term.
-     * @param lang           Dictionary language, "pt_PT" or "en_US".
+     * @param lang           Dictionary language, "pt-PT" or "en-US".
      * @param key            Private Key API from Bing.
      * @return
      */
     public static String suggestSimilarBing(String queryTerm, String lang, String key) throws IOException {
     	
-        String params = "?mkt=" + lang + "&mode=" + mode;
+    	String[] langParts = lang.split("-");
+    	
+        String params = "?mkt=" + lang + "&mode=" + mode + "&cc=" + langParts[1] + "&setLang=" + lang.toLowerCase();
         logger.info("queryTerm: "+ queryTerm);
         logger.info("params: "+ params);
 
