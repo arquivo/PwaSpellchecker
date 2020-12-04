@@ -58,7 +58,7 @@ public class SpellChecker {
  		connection.setDoOutput(true);
  		
  		String queryTermToLatin = new String(queryTerm.getBytes("ISO-8859-1"), "UTF-8");
- 		logger.info("queryTerm: "+ queryTerm);
+ 		logger.info("queryTerm: "+ queryTermToLatin);
         DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
         wr.writeBytes("text=" + queryTermToLatin);
         wr.flush();

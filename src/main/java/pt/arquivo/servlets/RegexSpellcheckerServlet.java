@@ -53,12 +53,12 @@ public class RegexSpellcheckerServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {			
-		if (null == request.getCharacterEncoding()) {
+		//if (null == request.getCharacterEncoding()) {
 			// Respect the client-specified character encoding
 			// (see HTTP specification section 3.4.1)
-			logger.info("changing to default encoding");
-			request.setCharacterEncoding( encoding );
-		}
+		//	logger.info("changing to default encoding");
+		request.setCharacterEncoding( encoding );
+		//}
 
 		StringBuffer correction = new StringBuffer();
 
