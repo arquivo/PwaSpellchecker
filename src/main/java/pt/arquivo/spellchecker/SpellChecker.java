@@ -52,13 +52,15 @@ public class SpellChecker {
         HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
         
         connection.setRequestMethod("POST");
-        connection.setRequestProperty( "Accept-Charset" , "UTF-8" );
+        connection.setRequestProperty("Accept-Charset" , "UTF-8");
  	 	connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
  		connection.setRequestProperty("Ocp-Apim-Subscription-Key", key);
  		connection.setDoOutput(true);
-
+ 		
+ 		String queryTermToLatin= new String(queryTerm.getBytes("UTF-8"), "ISO-8859-1");
+ 		logger.info("queryTerm: "+ queryTerm);
         DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
-        wr.writeBytes("text=" + queryTerm);
+        wr.writeBytes("text=" + queryTermToLatin);
         wr.flush();
         wr.close();
 
@@ -73,14 +75,14 @@ public class SpellChecker {
 
         JSONObject jsonObject = new JSONObject(jsonOutput);
         JSONArray flaggedTokens = jsonObject.getJSONArray("flaggedTokens");
-        String replaceString = queryTerm;
+        String replaceString = queryTermToLatin;
         for (int i = 0; i < flaggedTokens.length(); i++) {
         	JSONArray suggestions = flaggedTokens.getJSONObject(i).getJSONArray("suggestions");
 	        String token = flaggedTokens.getJSONObject(i).getString("token");
 	        String suggestion = suggestions.getJSONObject(0).getString("suggestion");
 	        replaceString = replaceString.replace(token, suggestion);
         }
-
-        return replaceString;
+        String replaceStringToUTF8 = new String(replaceString.getBytes("ISO-8859-1"), "UTF-8");
+        return replaceStringToUTF8;
     }
 }
