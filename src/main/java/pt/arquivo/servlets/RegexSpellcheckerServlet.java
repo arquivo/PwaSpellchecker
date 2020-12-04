@@ -3,6 +3,7 @@ package pt.arquivo.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.StringBuffer;
+import java.nio.charset.Charset;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -82,10 +83,11 @@ public class RegexSpellcheckerServlet extends HttpServlet {
 
 				String match = matcher.group(1).toLowerCase();
 				logger.info("match: "+ match);
-
+				
 				if ( !isOperator( match ) ) {
 					try {
-						suggestion = SpellChecker.suggestSimilarBing(match, lang, key);
+						String matchEnconding = new String(match.getBytes(Charset.forName("iso-8859-1")), Charset.forName("utf-8"));
+						suggestion = SpellChecker.suggestSimilarBing(matchEnconding, lang, key);
 						if ( !match.equals( suggestion ) ) {
 							logger.info("suggestion: "+ suggestion);
 							matcher.appendReplacement( correction, "<em>"+ suggestion +"</em>");
