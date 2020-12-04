@@ -86,8 +86,8 @@ public class RegexSpellcheckerServlet extends HttpServlet {
 				
 				if ( !isOperator( match ) ) {
 					try {
-						String matchEnconding = new String(match.getBytes(Charset.forName("iso-8859-1")), Charset.forName("utf-8"));
-						suggestion = SpellChecker.suggestSimilarBing(matchEnconding, lang, key);
+						String decodedToUTF8 = new String(match.getBytes("ISO-8859-1"), "UTF-8");
+						suggestion = SpellChecker.suggestSimilarBing(decodedToUTF8, lang, key);
 						if ( !match.equals( suggestion ) ) {
 							logger.info("suggestion: "+ suggestion);
 							matcher.appendReplacement( correction, "<em>"+ suggestion +"</em>");

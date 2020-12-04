@@ -43,7 +43,7 @@ public class SpellChecker {
     	//I don't think we need that many parameters.
     	//String[] langParts = lang.split("-");
     	//String params = "?mkt=" + lang + "&mode=" + mode + "&cc=" + langParts[1] + "&setLang=" + lang.toLowerCase();
-    	
+
     	String params = "?mkt=" + lang + "&mode=" + mode;
         logger.info("queryTerm: "+ queryTerm);
         logger.info("params: "+ params);
