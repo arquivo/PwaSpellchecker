@@ -40,9 +40,11 @@ public class SpellChecker {
      */
     public static String suggestSimilarBing(String queryTerm, String lang, String key) throws IOException {
     	
-    	String[] langParts = lang.split("-");
+    	//I don't think we need that many parameters.
+    	//String[] langParts = lang.split("-");
+    	//String params = "?mkt=" + lang + "&mode=" + mode + "&cc=" + langParts[1] + "&setLang=" + lang.toLowerCase();
     	
-        String params = "?mkt=" + lang + "&mode=" + mode + "&cc=" + langParts[1] + "&setLang=" + lang.toLowerCase();
+    	String params = "?mkt=" + lang + "&mode=" + mode;
         logger.info("queryTerm: "+ queryTerm);
         logger.info("params: "+ params);
 
