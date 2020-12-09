@@ -57,8 +57,8 @@ public class SpellChecker {
  		connection.setRequestProperty("Ocp-Apim-Subscription-Key", key);
  		connection.setDoOutput(true);
  		
-        DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
-        wr.writeBytes("text=" + queryTerm);
+ 		BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream(), "UTF-8"));
+ 		wr.write("text=" + queryTerm);
         wr.flush();
         wr.close();
 
