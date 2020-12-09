@@ -44,7 +44,7 @@ public class SpellChecker {
         URL url = new URL(host + path + "?mkt=" + lang + "&" + "mode=" + mode + "&" + "text=" + encoded_text);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
-        connection.setRequestMethod("POST");
+        connection.setRequestMethod("GET");
  	 	connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
  		connection.setRequestProperty("Ocp-Apim-Subscription-Key", key);
  		connection.setDoOutput(true);
