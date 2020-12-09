@@ -57,12 +57,13 @@ public class SpellChecker {
  		connection.setRequestProperty("Ocp-Apim-Subscription-Key", key);
  		connection.setDoOutput(true);
  		
- 		BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream(), "UTF-8"));
+ 		DataOutputStream writer = new DataOutputStream(connection.getOutputStream());
+ 		BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(writer, "UTF-8"));
  		wr.write("text=" + queryTerm);
         wr.flush();
         wr.close();
-
-        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        
+        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
         String jsonOutput = "";
         String line;
         while ((line = in.readLine()) != null) {
