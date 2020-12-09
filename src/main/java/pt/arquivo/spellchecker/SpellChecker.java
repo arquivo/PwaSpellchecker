@@ -59,7 +59,7 @@ public class SpellChecker {
 		
  		String text = "text=" + queryTerm;
  		DataOutputStream outputStream= new DataOutputStream(connection.getOutputStream());
-		outputStream.write(text.toString().getBytes());
+		outputStream.write(text.toString().getBytes("UTF-8"));
 		outputStream.flush();
 		outputStream.close();
 		
