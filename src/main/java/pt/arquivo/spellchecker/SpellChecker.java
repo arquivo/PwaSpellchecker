@@ -2,19 +2,12 @@ package pt.arquivo.spellchecker;
 
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Vector;
 
 import org.apache.log4j.Logger;
 
-import java.io.*;
 import java.net.*;
-import javax.net.ssl.HttpsURLConnection;
-
 import org.json.*;
 
 
@@ -44,24 +37,17 @@ public class SpellChecker {
     	//String[] langParts = lang.split("-");
     	//String params = "?mkt=" + lang + "&mode=" + mode + "&cc=" + langParts[1] + "&setLang=" + lang.toLowerCase();
 
-    	String params = "?mkt=" + lang + "&mode=" + mode;
         logger.info("queryTerm: "+ queryTerm);
-        logger.info("params: "+ params);
-
-        URL url = new URL(host + path + params);
-        HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+        String encoded_text = URLEncoder.encode (queryTerm, "UTF-8");
+        logger.info("params: "+ host + path + "?mkt=" + lang + "&" + "mode=" + mode + "&" + "text=" + encoded_text);
         
+        URL url = new URL(host + path + "?mkt=" + lang + "&" + "mode=" + mode + "&" + "text=" + encoded_text);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
         connection.setRequestMethod("POST");
-        connection.setRequestProperty("Accept-Charset" , "UTF-8");
- 	 	connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
+ 	 	connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
  		connection.setRequestProperty("Ocp-Apim-Subscription-Key", key);
  		connection.setDoOutput(true);
-		
- 		String text = "text=" + queryTerm;
- 		DataOutputStream outputStream= new DataOutputStream(connection.getOutputStream());
-		outputStream.write(text.toString().getBytes("UTF-8"));
-		outputStream.flush();
-		outputStream.close();
 		
         BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         String jsonOutput = "";
