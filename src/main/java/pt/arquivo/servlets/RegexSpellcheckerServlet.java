@@ -59,9 +59,8 @@ public class RegexSpellcheckerServlet extends HttpServlet {
 			logger.info("changing to default encoding");
 			request.setCharacterEncoding( encoding );
 		}
-
-		StringBuffer correction = new StringBuffer();
-
+		
+		String correction = "";
 		String query = request.getParameter("query");
 		String lang = request.getParameter("l");
 
@@ -74,29 +73,20 @@ public class RegexSpellcheckerServlet extends HttpServlet {
 		}
 
 		if (query != null && lang != null) {
-			Matcher matcher = pattern.matcher( query );
 
 			logger.info("checking query: "+ query);
 
-			while ( matcher.find() ) {
-				String suggestion = "";
-
-				String match = matcher.group(1).toLowerCase();
-				logger.info("match: "+ match);
-				
-				if ( !isOperator( match ) ) {
-					try {
-						suggestion = SpellChecker.suggestSimilarBing(match, lang, key);
-						if ( !match.equals( suggestion ) ) {
-							logger.info("suggestion: "+ suggestion);
-							matcher.appendReplacement( correction, "<em>"+ suggestion +"</em>");
-						}				
-					} catch (IOException e) {			
-						throw new IOException(e);
-					}
-				}
+			String suggestion = "";
+			
+			try {
+				suggestion = SpellChecker.suggestSimilarBing(query, lang, key);
+				if ( !query.equals( suggestion ) ) {
+					logger.info("suggestion: "+ suggestion);
+					correction = "<em>"+ suggestion +"</em>";
+				}				
+			} catch (IOException e) {			
+				throw new IOException(e);
 			}
-			matcher.appendTail(correction);
 		}
 
 		response.setContentType("text/html; charset=UTF-8");
@@ -116,7 +106,7 @@ public class RegexSpellcheckerServlet extends HttpServlet {
 					out.println("</div>");
 					out.println("<h5>Correction:</h5>");
 					out.println("<div id=\"correction\">");	    
-						out.println( correction.toString() );
+						out.println( correction );
 					out.println("</div>");
 				out.println("</body>");
 			out.println("</html>");	  
