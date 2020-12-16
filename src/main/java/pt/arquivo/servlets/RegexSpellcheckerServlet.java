@@ -59,8 +59,7 @@ public class RegexSpellcheckerServlet extends HttpServlet {
 			logger.info("changing to default encoding");
 			request.setCharacterEncoding( encoding );
 		}
-		
-		String correction = "";
+			
 		String query = request.getParameter("query");
 		String lang = request.getParameter("l");
 
@@ -71,7 +70,9 @@ public class RegexSpellcheckerServlet extends HttpServlet {
 		} else {
 			lang = "pt-PT";
 		}
-
+		
+		String correction = "<em>"+ query +"</em>";
+		
 		if (query != null && lang != null) {
 
 			logger.info("checking query: "+ query);
