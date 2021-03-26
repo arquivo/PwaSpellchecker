@@ -1,12 +1,24 @@
-#Introduction
+# Introduction
 
-Misspellings lead IR systems to provide bad results without users even realizing their mistakes. Users assume that the system lacks quality, which decreases their satisfaction and likelihood of returning to the system. We detected the misspelling problem in the Portuguese Web Archive. Hence, we analyzed existing solutions for spelling suggestion and integrated the solution that provided the best results in our user interface.
+Misspellings lead IR systems to provide bad results without users even realizing their mistakes. Users assume that the system lacks quality, which decreases their satisfaction and likelihood of returning to the system. We detected the misspelling problem in the Portuguese Web Archive. 
 
-The following technical report Query Suggestion for Web Archive Search describes the adopted methodology, the obtained results and the chosen solution.
+# Old methodology
 
-The datasets (in Portuguese) used can be downloaded from http://www.linguateca.pt/Repositorio/CorrOrtog/.
+Hence, we analyzed existing solutions for spelling suggestion and integrated the solution that provided the best results in our user interface.
 
-#Compile
+The following [technical report Query Suggestion for Web Archive Search](https://sobre.arquivo.pt/en/technical-report-analyses-query-suggestion-for-web-archives/) describes the old methodology adopted and the obtained results based on this [Portuguese Dataset](http://www.linguateca.pt/Repositorio/CorrOrtog/).
+
+However, there are several problems with this methodology:
+
+1. Legacy Technology.
+2. High cost of maintenance and updgrade.
+3. Space to store indexes on the servers.
+
+# New methodology
+
+
+
+# Compile
 
 Checkout PwaSpellchecker: * svn checkout http://pwa-technologies.googlecode.com/svn/trunk/pwa-technologies Install PwaSpellchecker: * cd pwa-technologies/PwaSpellchecker * mvn install
 
