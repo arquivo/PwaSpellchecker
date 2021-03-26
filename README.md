@@ -16,7 +16,17 @@ However, there are several problems with this methodology:
 
 # New methodology
 
+The new methodology used is based on the Bing Search API, in particular the [Bing Spell Check API](https://www.microsoft.com/en-us/bing/apis/bing-spell-check-api)
 
+Parameters:
+
+**host** + **path** + "?mkt=" + **lang** + "&" + "mode=" + **mode** + "&" + "text=" + **query**
+
+1. **host** = https://api.bing.microsoft.com;
+2. **path** = /v7.0/SpellCheck;
+3. **mode** = spell;
+4. **lang** is the languague selected in arquivo.pt;
+5. **query** is the query submitted by the user;
 
 # Compile
 
