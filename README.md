@@ -1,3 +1,7 @@
+**Archived** - this service is going to be merged on the [Page Search API (textsearch)](https://github.com/arquivo/page-search) using a specific additional parameter as an additional parameter.
+
+After the discontinuation of Bing Spell Check API at August 11, 2025; this service have not been in use on Arquivo.pt site.
+
 # Introduction
 
 Misspellings lead IR systems to provide bad results without users even realizing their mistakes. Users assume that the system lacks quality, which decreases their satisfaction and likelihood of returning to the system. We detected the misspelling problem in the Portuguese Web Archive. 
